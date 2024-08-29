@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const user_1 = require("../controllers/user");
+// import id from '../interfaces/task.interface';
+const userRouter = (0, express_1.Router)();
+userRouter.get("/", user_1.listUsers);
+userRouter.delete("/:userId", user_1.deleteUser);
+userRouter.get("/:userId", user_1.showUserDetails);
+userRouter.put("/:userId", user_1.updateUser);
+userRouter.post("/", user_1.addUser);
+exports.default = userRouter;
