@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const user_1 = require("../controllers/user");
+// import authMiddleware from "../middleware/auth";
 // import id from '../interfaces/task.interface';
 const userRouter = (0, express_1.Router)();
 userRouter.get("/", user_1.listUsers);

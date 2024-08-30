@@ -28,6 +28,7 @@
 //   try {
 //     const decoded = jwt.verify(token, config.jwt.secret) as TokenData;
 //     req.userId = decoded.id;
+//     console.log("qwkdjqwlkjdeqwlkjkdeqwl");
 //     next();
 //   } catch (error) {
 //     console.log(error);

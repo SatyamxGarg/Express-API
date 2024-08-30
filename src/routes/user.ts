@@ -6,6 +6,7 @@ import {
     showUserDetails,
     updateUser,
   } from "../controllers/user";
+  // import authMiddleware from "../middleware/auth";
   // import id from '../interfaces/task.interface';
 
 const userRouter = Router();
