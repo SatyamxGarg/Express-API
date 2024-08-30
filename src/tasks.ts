@@ -6,7 +6,7 @@
 // router.post('/', (req: Request, res: Response) => {
 //     const task: Task = {
 //         id: tasks.length + 1,
-//         title: req.body.title,
+//         name: req.body.name,
 //         description: req.body.description,
 //         completed: false,
 //     };
@@ -46,7 +46,7 @@
 //     if (!task) {
 //         res.status(404).send('Task not found');
 //     } else {
-//         task.title = req.body.title || task.title;
+//         task.name = req.body.name || task.name;
 //         task.description = req.body.description || task.description;
 //         task.completed = req.body.completed || task.completed;
 
