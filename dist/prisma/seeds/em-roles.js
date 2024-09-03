@@ -20,19 +20,27 @@ const addRoles = (prisma) => __awaiter(void 0, void 0, void 0, function* () {
         { role_name: 'HR' },
         { role_name: 'Office Boy' }
     ];
-    for (let role of roles) {
-        const checkRole = yield prisma.emRole.findFirst({
-            where: {
+    const checkRole = yield prisma.emRole.count();
+    if (checkRole === 0) {
+        const res = yield prisma.emRole.createMany({
+            data: roles.map((role) => ({
                 roleName: role.role_name
-            },
+            }))
         });
-        if (!checkRole) {
-            yield prisma.emRole.create({
-                data: {
-                    roleName: role.role_name,
-                },
-            });
-        }
     }
+    // for(let role of roles){
+    //     const checkRole = await prisma.emRole.findFirst({
+    //         where: {
+    //           roleName: role.role_name
+    //         },
+    //       });
+    //     if(!checkRole){
+    //         await prisma.emRole.create({
+    //             data: {
+    //                 roleName: role.role_name,
+    //               },
+    //         })
+    //     }
+    // }
 });
 exports.addRoles = addRoles;

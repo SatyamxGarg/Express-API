@@ -11,20 +11,27 @@ export const addRoles = async(prisma: PrismaClient) => {
     { role_name: 'HR' },
     { role_name: 'Office Boy' }
 ];
-
-for(let role of roles){
-    const checkRole = await prisma.emRole.findFirst({
-        where: {
-          roleName: role.role_name
-        },
-      });
-    if(!checkRole){
-        await prisma.emRole.create({
-            data: {
-                roleName: role.role_name,
-              },
-        })
-    }
-}
+const checkRole = await prisma.emRole.count();
+  if(checkRole === 0){
+    const res =  await prisma.emRole.createMany({
+     data: roles.map((role: any) => ({
+      roleName: role.role_name
+     }))
+    });
+  }
+// for(let role of roles){
+//     const checkRole = await prisma.emRole.findFirst({
+//         where: {
+//           roleName: role.role_name
+//         },
+//       });
+//     if(!checkRole){
+//         await prisma.emRole.create({
+//             data: {
+//                 roleName: role.role_name,
+//               },
+//         })
+//     }
+// }
 
 }

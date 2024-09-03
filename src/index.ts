@@ -4,28 +4,36 @@ import rootRouter from './routes';
 const app = express();
 const port = 8080;
 
-const middleware = async (req: Request, res: Response, next: NextFunction) => {
+export const middleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await next();
+    await next(); // Let the route handler or other middleware execute first
+
+    // Only send a response if none has been sent yet
     if (!res.headersSent) {
-      const {data, message, statusCode} = res.locals.response;
+    
+    //  const { data = {}, message = 'No message', statusCode = 200 } = res.locals.response || {};
+     const {data, message, statusCode} = res.locals.response;
       res.status(statusCode).json({
         statusCode,
         message,
         data,
       });
+      console.log('Response data:', res.locals.response);
     }
   } catch (err: any) {
-    res.locals.response = {
-      data: {},
-      message: err?.message || err?.toString() || 'Unknown error',
-      statusCode: err?.statusCode || 520
-    }; 
+    // Catch any unhandled errors and send an error response if not already sent
+    if (!res.headersSent) {
+      res.status(err?.statusCode || 520).json({
+        data: {},
+        message: err?.message || 'Unknown error',
+        statusCode: err?.statusCode || 520
+      });
+    }
   }
 };
 
 app.use(express.json());
-app.use(middleware);
+ app.use(middleware);
 app.use("/", rootRouter);
 
 app.listen(port, () => {
