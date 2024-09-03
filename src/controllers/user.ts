@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Task } from '../interfaces/task.interface';
-import { commonResponse } from '../middleware'
 
 let tasks: Task[] = [];
 
@@ -166,7 +165,7 @@ export const addUser = async (req: Request, res: Response) => {
       message: 'User is added successfully.',
       statusCode: 200
     };
-    return commonResponse(req, res, 201, "success", task, 1);
+    // return commonResponse(req, res, 201, "success", task, 1);
     // res.status(201).send({
     //   "status": 201,
     //   "message": "Done",

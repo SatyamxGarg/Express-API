@@ -16,7 +16,6 @@ const addCountry = (prisma) => __awaiter(void 0, void 0, void 0, function* () {
         { country_name: 'USA', country_id: 2 }
     ];
     const checkCountry = yield prisma.emCountry.count();
-    console.log(checkCountry, 'count ');
     if (checkCountry === 0) {
         const res = yield prisma.emCountry.createMany({
             data: countries.map((country) => ({
@@ -49,7 +48,6 @@ const addState = (prisma) => __awaiter(void 0, void 0, void 0, function* () {
         { state_name: 'New York', country_id: 2 },
     ];
     const checkState = yield prisma.emState.count();
-    console.log(checkState, 'count ');
     if (checkState === 0) {
         const res = yield prisma.emState.createMany({
             data: states.map((state) => ({
@@ -87,7 +85,6 @@ const addCity = (prisma) => __awaiter(void 0, void 0, void 0, function* () {
         { city_name: 'Rochesters', state_id: 4 }
     ];
     const checkCity = yield prisma.emCities.count();
-    console.log(checkCity, 'count ');
     if (checkCity === 0) {
         const res = yield prisma.emCities.createMany({
             data: cities.map((city) => ({

@@ -25,9 +25,9 @@ users EmUser[]
 @@map("em_roles")
 }
 
-enum Gender{
-Male
-Female
+enum Gender {
+  MALE
+  FEMALE
 }
 
 model EmUser {
@@ -40,9 +40,9 @@ userPhone       String      @map("user_phone")        @db.VarChar(10)
 userCity        String      @map("user_city_name")    @db.VarChar(20)
 userState       String      @map("user_state_name")   @db.VarChar(20)
 userCountry     String      @map("user_country_name") @db.VarChar(20)
-userUpdatedAt   DateTime    @map("user_updated_at")   @updatedAt
-userDeletedAt   DateTime    @map("user_deleted_at")
-userCreatedAt   DateTime    @map("user_created_at")   @default(now())
+userUpdatedAt   DateTime?   @map("user_updated_at")   @default(now()) 
+userDeletedAt   DateTime?   @map("user_deleted_at")
+userCreatedAt   DateTime    @map("user_created_at")   @default(now()) 
 userPassword    String      @map("user_password")     @db.VarChar(200)
 userGender      Gender      @map("user_gender")
 userRoleId      Int         @map("user_role_id")

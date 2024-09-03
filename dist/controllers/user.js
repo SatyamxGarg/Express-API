@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.addUser = exports.updateUser = exports.showUserDetails = exports.listUsers = void 0;
-const middleware_1 = require("../middleware");
 let tasks = [];
 const BadRequest = (message) => {
     return { statusCode: 400, message };
@@ -159,7 +158,7 @@ const addUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             message: 'User is added successfully.',
             statusCode: 200
         };
-        return (0, middleware_1.commonResponse)(req, res, 201, "success", task, 1);
+        // return commonResponse(req, res, 201, "success", task, 1);
         // res.status(201).send({
         //   "status": 201,
         //   "message": "Done",
