@@ -183,6 +183,7 @@
 
 import { Request, Response, NextFunction } from "express";
 import { isEmailRegistered, isValidData, createNewUser } from '../services/signIn.service';
+import middleware from "../middleware/commonMiddleware";
 
 export const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
   const {
@@ -198,9 +199,9 @@ export const signUpUser = async (req: Request, res: Response, next: NextFunction
 
   if (!isDetailsValid) {
     res.locals.response = {
-      data: {},
+      statusCode: 401,
       message: 'Invalid details',
-      statusCode: 400
+      data: {},
     };
     return next(); 
   }
@@ -208,9 +209,9 @@ export const signUpUser = async (req: Request, res: Response, next: NextFunction
   try {
     if (await isEmailRegistered(userEmail)) {
       res.locals.response = {
-        data: {},
+        statusCode: 403,
         message: 'Email already registered',
-        statusCode: 403
+        data: {},
       };
       return next(); 
     }
@@ -222,18 +223,17 @@ export const signUpUser = async (req: Request, res: Response, next: NextFunction
     );
     
     res.locals.response = {
-      data: userCreated ? {} : null,
-      message: userCreated ? 'User Created Successfully.' : 'User not created.',
-      statusCode: userCreated ? 201 : 404
+      statusCode: 201,
+      message: 'User Created Successfully.',
+      data: {},
     };
-    console.log('Responsesignup data:', res.locals.response);
     return next();
 
   } catch (err: any) {
     res.locals.response = {
-      data: {},
+      statusCode: err?.statusCode || 520,
       message: err?.message || 'Unknown error',
-      statusCode: err?.statusCode || 520
+      data: {},
     };
     return next(); 
   }

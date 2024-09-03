@@ -19,35 +19,34 @@ const signUpUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     const isDetailsValid = yield (0, signIn_service_1.isValidData)(userFirstName, userLastName, userAge, userEmail, userPhone, userCountry, userState, userCity, userPassword, userGender, userRoleId);
     if (!isDetailsValid) {
         res.locals.response = {
-            data: {},
+            statusCode: 401,
             message: 'Invalid details',
-            statusCode: 400
+            data: {},
         };
         return next();
     }
     try {
         if (yield (0, signIn_service_1.isEmailRegistered)(userEmail)) {
             res.locals.response = {
-                data: {},
+                statusCode: 403,
                 message: 'Email already registered',
-                statusCode: 403
+                data: {},
             };
             return next();
         }
         const userCreated = yield (0, signIn_service_1.createNewUser)(userFirstName, userLastName, userAge, userEmail, userPhone, userCountry, userState, userCity, userPassword, userGender, userRoleId, userCreatedAt, userUpdatedAt);
         res.locals.response = {
-            data: userCreated ? {} : null,
-            message: userCreated ? 'User Created Successfully.' : 'User not created.',
-            statusCode: userCreated ? 201 : 404
+            statusCode: 201,
+            message: 'User Created Successfully.',
+            data: {},
         };
-        console.log('Responsesignup data:', res.locals.response);
         return next();
     }
     catch (err) {
         res.locals.response = {
-            data: {},
+            statusCode: (err === null || err === void 0 ? void 0 : err.statusCode) || 520,
             message: (err === null || err === void 0 ? void 0 : err.message) || 'Unknown error',
-            statusCode: (err === null || err === void 0 ? void 0 : err.statusCode) || 520
+            data: {},
         };
         return next();
     }

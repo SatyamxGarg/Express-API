@@ -1,22 +1,22 @@
 import { isEmailRegistered, isCredentialsTrue , isValidEmail} from '../services/login.service';
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { userEmail, userPassword } = req.body;
 
     
     const valid = await isValidEmail(userEmail);
 
     if(!(valid)){
-        return res.status(400).send({
-            data: {},
-            message: 'Invalid Email.',
-            statusCode: 400
-          });
+      res.locals.response = {
+        statusCode: 400,
+        message: 'Invalid Email',
+        data: {},
+      };
+      return next(); 
     }
     
-
     try {
 
         if (await isEmailRegistered(userEmail)) {
@@ -24,20 +24,22 @@ export const login = async (req: Request, res: Response) => {
 
             const valid =  await isCredentialsTrue(userEmail, userPassword);
             if (valid) {
-                return res.status(200).send({
-                    data: {},
-                    message: 'Login Successfully.',
-                    statusCode: 200
-                  });
+              res.locals.response = {
+                statusCode: 200,
+                message: 'Login Successfully',
+                data: {},
+              };
+              return next(); 
             }
 
         }
-        return res.status(403).send({
-            data: {},
-            message: 'Wrong Credentials.',
-            statusCode: 403
-          });
-
+        res.locals.response = {
+          statusCode: 403,
+          message: 'Wrong Credentials.',
+          data: {},
+        };
+        return next();
+       
     } catch (err: any) {
         return res.status(err?.statusCode || 520).send({
           data: {},

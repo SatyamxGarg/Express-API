@@ -11,32 +11,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = void 0;
 const login_service_1 = require("../services/login.service");
-const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { userEmail, userPassword } = req.body;
     const valid = yield (0, login_service_1.isValidEmail)(userEmail);
     if (!(valid)) {
-        return res.status(400).send({
+        res.locals.response = {
+            statusCode: 400,
+            message: 'Invalid Email',
             data: {},
-            message: 'Invalid Email.',
-            statusCode: 400
-        });
+        };
+        return next();
     }
     try {
         if (yield (0, login_service_1.isEmailRegistered)(userEmail)) {
             const valid = yield (0, login_service_1.isCredentialsTrue)(userEmail, userPassword);
             if (valid) {
-                return res.status(200).send({
+                res.locals.response = {
+                    statusCode: 200,
+                    message: 'Login Successfully',
                     data: {},
-                    message: 'Login Successfully.',
-                    statusCode: 200
-                });
+                };
+                return next();
             }
         }
-        return res.status(403).send({
-            data: {},
+        res.locals.response = {
+            statusCode: 403,
             message: 'Wrong Credentials.',
-            statusCode: 403
-        });
+            data: {},
+        };
+        return next();
     }
     catch (err) {
         return res.status((err === null || err === void 0 ? void 0 : err.statusCode) || 520).send({
