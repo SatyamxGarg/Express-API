@@ -25,7 +25,7 @@ export const listUsers = async (req: Request, res: Response) => {
   try {
     res.locals.response = {
       data: { result: tasks, totalCount: tasks.length },
-      message: 'message',
+      message: 'Users fetched successfully.',
       statusCode: 200
     };
   } catch (err: any) {
@@ -71,7 +71,7 @@ export const showUserDetails = async (req: Request, res: Response) => {
     }
     res.locals.response = {
       data: { details: task },
-      message: 'message',
+      message: 'User details fetched successfully.',
       statusCode: 200
     };
   } catch (err: any) {
@@ -104,7 +104,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
     res.locals.response = {
       data: { details: task },
-      message: 'message',
+      message: 'User details are updated.',
       statusCode: 200
     };
 
@@ -163,7 +163,7 @@ export const addUser = async (req: Request, res: Response) => {
     tasks.push(task);
     res.locals.response = {
       data: { result: task },
-      message: 'message',
+      message: 'User is added successfully.',
       statusCode: 200
     };
     return commonResponse(req, res, 201, "success", task, 1);
@@ -222,13 +222,12 @@ export const deleteUser = async (req: Request, res: Response) => {
 
     res.locals.response = {
       data: { },
-      message: 'message',
+      message: 'Deleted successfully.',
       statusCode: 200
     };
     console.log(res.locals.response)
   }
   catch (err: any) {
-    console.log("in catch")
     res.locals.response = {
       data: {},
       message: err?.message || err?.toString() || 'Unknown error',

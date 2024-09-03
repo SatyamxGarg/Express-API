@@ -2,6 +2,9 @@
   "name": "newexp",
   "version": "1.0.0",
   "main": "index.js",
+  "prisma":{
+    "seed": "ts-node ./prisma/seeds/index.ts"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon"
