@@ -35,6 +35,14 @@ const signUpUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             return next();
         }
         const userCreated = yield (0, signIn_service_1.createNewUser)(userFirstName, userLastName, userAge, userEmail, userPhone, userCountry, userState, userCity, userPassword, userGender, userRoleId, userCreatedAt, userUpdatedAt);
+        if (!userCreated) {
+            res.locals.response = {
+                statusCode: 401,
+                message: 'User Not Created.',
+                data: {},
+            };
+            return next();
+        }
         res.locals.response = {
             statusCode: 201,
             message: 'User Created Successfully.',

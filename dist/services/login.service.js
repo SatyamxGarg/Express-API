@@ -46,8 +46,8 @@ const isCredentialsTrue = (userEmail, userPassword) => __awaiter(void 0, void 0,
     const isMatch = yield comparePasswords(userPassword, findUser.userPassword);
     if (isMatch) {
         return {
-            email: userEmail,
-            id: findUser.userId
+            userEmail: userEmail,
+            userId: findUser.userId
         };
     }
     return false;

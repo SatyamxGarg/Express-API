@@ -8,37 +8,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
-const login_service_1 = require("../services/login.service");
-const jwt_service_1 = require("../services/jwt.service");
-const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userEmail, userPassword } = req.body;
-    const valid = yield (0, login_service_1.isValidEmail)(userEmail);
-    if (!(valid)) {
-        res.locals.response = {
-            statusCode: 400,
-            message: 'Invalid Email',
-            data: {},
-        };
-        return next();
-    }
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (yield (0, login_service_1.isEmailRegistered)(userEmail)) {
-            const valid = yield (0, login_service_1.isCredentialsTrue)(userEmail, userPassword);
-            if (valid) {
-                const token = yield (0, jwt_service_1.generateToken)(valid);
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        if (token == null) {
+            res.locals.response = {
+                statusCode: 401,
+                message: 'Unauthorized user.',
+                data: {},
+            };
+            return next();
+        }
+        jsonwebtoken_1.default.verify(token, process.env.SECRET_KEY, (err, user) => {
+            if (err) {
                 res.locals.response = {
-                    statusCode: 200,
-                    message: 'Login Successfully',
-                    data: { valid, token },
+                    statusCode: 401,
+                    message: 'Unauthorized user.',
+                    data: {},
                 };
                 return next();
             }
-        }
+        });
         res.locals.response = {
-            statusCode: 403,
-            message: 'Wrong Credentials.',
+            statusCode: 200,
+            message: 'Token Verified.',
             data: {},
         };
         return next();
@@ -52,4 +53,4 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         return next();
     }
 });
-exports.login = login;
+exports.default = verifyToken;

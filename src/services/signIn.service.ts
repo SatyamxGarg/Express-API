@@ -34,10 +34,10 @@ export const isValidData = async (userFirstName: string, userLastName:string, us
         return emailRegex.test(userEmail);
     };
 
-    const isValidPhoneNumber = (userPhone: string) => {
-        const numberRegex = /^\d{10}$/;
-        return numberRegex.test(userPhone);
-    };
+    // const isValidPhoneNumber = (userPhone: string) => {
+    //     const numberRegex = /^\d{10}$/;
+    //     return numberRegex.test(userPhone);
+    // };
 
     // const isValidGender = (userGender: string) => {
     //     return userGender === "male" || userGender === "female";
@@ -49,7 +49,7 @@ export const isValidData = async (userFirstName: string, userLastName:string, us
         return passwordRegex.test(password);
     };
 
-    if (!isValidEmail(userEmail) || !isValidPhoneNumber(userPhone) || !isValidPassword(userPassword)) {
+    if (!isValidEmail(userEmail) || !isValidPassword(userPassword)) {
         return false;
     }
 

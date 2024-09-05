@@ -221,7 +221,15 @@ export const signUpUser = async (req: Request, res: Response, next: NextFunction
       userCountry, userState, userCity, userPassword, userGender, 
       userRoleId, userCreatedAt, userUpdatedAt
     );
-    
+    if(!userCreated){
+      res.locals.response = {
+        statusCode: 401,
+        message: 'User Not Created.',
+        data: {},
+      };
+      return next();
+    }
+ 
     res.locals.response = {
       statusCode: 201,
       message: 'User Created Successfully.',

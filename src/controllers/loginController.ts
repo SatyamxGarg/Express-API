@@ -1,10 +1,9 @@
 import { isEmailRegistered, isCredentialsTrue , isValidEmail} from '../services/login.service';
 import { Request, Response, NextFunction } from 'express';
-
+import { generateToken } from '../services/jwt.service';
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { userEmail, userPassword } = req.body;
-
     
     const valid = await isValidEmail(userEmail);
 
@@ -24,10 +23,11 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
             const valid =  await isCredentialsTrue(userEmail, userPassword);
             if (valid) {
+              const token = await generateToken(valid);            
               res.locals.response = {
                 statusCode: 200,
                 message: 'Login Successfully',
-                data: {},
+                data: {valid, token},
               };
               return next(); 
             }
@@ -40,11 +40,12 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         };
         return next();
        
-    } catch (err: any) {
-        return res.status(err?.statusCode || 520).send({
-          data: {},
-          message: err?.message || 'Unknown error',
-          statusCode: err?.statusCode || 520
-        });
-      }
+    }  catch (err: any) {
+      res.locals.response = {
+        statusCode: err?.statusCode || 520,
+        message: err?.message || 'Unknown error',
+        data: {},
+      };
+      return next(); 
+    }
 };

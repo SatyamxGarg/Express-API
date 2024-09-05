@@ -35,8 +35,8 @@ export const isCredentialsTrue = async(userEmail:string,userPassword:string)=>{
 
     if(isMatch){
         return {
-            email:userEmail,
-            id: findUser!.userId
+            userEmail:userEmail,
+            userId: findUser!.userId
         }
     }
     return false;

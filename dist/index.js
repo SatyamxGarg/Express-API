@@ -5,9 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const routes_1 = __importDefault(require("./routes"));
+const cors_1 = __importDefault(require("cors"));
 const commonMiddleware_1 = __importDefault(require("./middleware/commonMiddleware"));
 const app = (0, express_1.default)();
-const port = 8080;
+const port = 8081;
 // export const middleware = async (req: Request, res: Response, next: NextFunction) => {
 //   try {
 //     await next(); // Let the route handler or other middleware execute first
@@ -34,6 +35,7 @@ const port = 8080;
 //   }
 // };
 //app.use(cors());
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/", routes_1.default);
 app.use(commonMiddleware_1.default);

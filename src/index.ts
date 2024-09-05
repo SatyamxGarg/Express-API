@@ -4,7 +4,7 @@ import cors from 'cors';
 import middleware from "./middleware/commonMiddleware";
 
 const app = express();
-const port = 8080;
+const port = 8081;
 
 // export const middleware = async (req: Request, res: Response, next: NextFunction) => {
 //   try {
@@ -35,6 +35,7 @@ const port = 8080;
 // };
 //app.use(cors());
 
+app.use(cors());
 app.use(express.json());
 app.use("/", rootRouter);
 app.use(middleware);
