@@ -18,7 +18,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const prisma = new client_1.PrismaClient();
 function hashPassword(password) {
     return __awaiter(this, void 0, void 0, function* () {
-        const saltRounds = 10; // Number of salt rounds (recommended: 10 or higher)
+        const saltRounds = 10;
         return bcrypt_1.default.hash(password, saltRounds);
     });
 }

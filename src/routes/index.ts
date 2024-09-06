@@ -2,7 +2,6 @@ import { Router } from "express";
 import userRouter from "./user";
 import authRouter from "./auth"
 import projectRouter from "./project";
-// import authMiddleware from "../middleware/auth";
 
 
 const rootRouter = Router();

@@ -37,7 +37,7 @@ const port = 8081;
 //app.use(cors());
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.use("/", routes_1.default);
+app.use("/api/v1/", routes_1.default);
 app.use(commonMiddleware_1.default);
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

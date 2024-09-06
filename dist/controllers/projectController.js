@@ -8,24 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateProject = exports.getProjects = exports.deleteProject = exports.listProjects = exports.addProjects = void 0;
 const client_1 = require("@prisma/client");
+const getTokenId_service_1 = require("../services/getTokenId.service");
 const prisma = new client_1.PrismaClient();
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const getUserIdFromToken = (token) => {
-    try {
-        const decoded = jsonwebtoken_1.default.verify(token, process.env.SECRET_KEY);
-        return decoded.userId || null;
-    }
-    catch (err) {
-        console.error('Token verification failed:', err);
-        return null;
-    }
-};
 const addProjects = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
@@ -37,7 +24,7 @@ const addProjects = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         };
         return next();
     }
-    const userId = getUserIdFromToken(token);
+    const userId = yield (0, getTokenId_service_1.getUserIdFromToken)(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -50,7 +37,7 @@ const addProjects = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     if (!projectName || !projectDescription) {
         res.locals.response = {
             statusCode: 400,
-            message: 'Bad Request.',
+            message: 'Bad Request: Fields can`t be empty.',
             data: {},
         };
         return next();
@@ -104,7 +91,7 @@ const listProjects = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         };
         return next();
     }
-    const userId = getUserIdFromToken(token);
+    const userId = yield (0, getTokenId_service_1.getUserIdFromToken)(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -155,7 +142,7 @@ const deleteProject = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         };
         return next();
     }
-    const userId = getUserIdFromToken(token);
+    const userId = yield (0, getTokenId_service_1.getUserIdFromToken)(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -213,7 +200,7 @@ const getProjects = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         };
         return next();
     }
-    const userId = getUserIdFromToken(token);
+    const userId = yield (0, getTokenId_service_1.getUserIdFromToken)(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -266,7 +253,7 @@ const updateProject = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         };
         return next();
     }
-    const userId = getUserIdFromToken(token);
+    const userId = yield (0, getTokenId_service_1.getUserIdFromToken)(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -287,6 +274,7 @@ const updateProject = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     const { projectName, projectDescription, projectTech, projectStatus, projectLead, projectManager, projectClient, managementTool, managementUrl, repoTool, repoUrl, projectStartDate, projectDeadlineDate } = req.body;
     if (!projectName ||
         !projectTech ||
+        !projectDescription ||
         !projectStatus ||
         !projectLead ||
         !projectManager ||

@@ -3,10 +3,10 @@ import { Router, Request, Response } from "express";
 
 const projectRouter = Router();
 
-projectRouter.get("/list-projects", listProjects)
-projectRouter.post("/add-project", addProjects);
-projectRouter.delete("/del-project/:id", deleteProject);
-projectRouter.get("/get-project/:id", getProjects);
-projectRouter.put("/update-project/:id", updateProject)
+projectRouter.get("/", listProjects);
+projectRouter.post("/", addProjects);
+projectRouter.delete("/:id", deleteProject);
+projectRouter.get("/:id", getProjects);
+projectRouter.put("/:id", updateProject);
 
 export default projectRouter;

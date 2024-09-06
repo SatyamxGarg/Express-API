@@ -183,7 +183,6 @@
 
 import { Request, Response, NextFunction } from "express";
 import { isEmailRegistered, isValidData, createNewUser } from '../services/signIn.service';
-import middleware from "../middleware/commonMiddleware";
 
 export const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
   const {

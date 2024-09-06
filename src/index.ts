@@ -37,7 +37,7 @@ const port = 8081;
 
 app.use(cors());
 app.use(express.json());
-app.use("/", rootRouter);
+app.use("/api/v1/", rootRouter);
 app.use(middleware);
 
 app.listen(port, () => {

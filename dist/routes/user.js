@@ -2,16 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const user_1 = require("../controllers/user");
-// import authMiddleware from "../middleware/auth";
-// import id from '../interfaces/task.interface';
 const userRouter = (0, express_1.Router)();
-// userRouter.get("/", listUsers);
-// userRouter.delete("/:userId", deleteUser);
-userRouter.get("", user_1.showUserDetails);
-userRouter.put("/update-user", user_1.updateUser);
+userRouter.get("/", user_1.showUserDetails);
+userRouter.put("/", user_1.updateUser);
 userRouter.get("/get-country", user_1.getCountries);
 userRouter.post("/get-state", user_1.getStates);
 userRouter.post("/get-city", user_1.getCities);
 userRouter.put("/change-password", user_1.changePassword);
-// userRouter.post("/", addUser);
 exports.default = userRouter;

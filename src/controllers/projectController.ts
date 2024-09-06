@@ -1,20 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from "@prisma/client";
+import { getUserIdFromToken } from "../services/getTokenId.service";
+
 
 const prisma = new PrismaClient();
 
 import jwt from 'jsonwebtoken';
 
-
-const getUserIdFromToken = (token: string): number | null => {
-    try {
-        const decoded = jwt.verify(token, process.env.SECRET_KEY!) as { userId: number };
-        return decoded.userId || null;
-    } catch (err) {
-        console.error('Token verification failed:', err);
-        return null;
-    }
-};
 
 export const addProjects = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -28,7 +20,7 @@ export const addProjects = async (req: Request, res: Response, next: NextFunctio
         return next();
     }
 
-    const userId = getUserIdFromToken(token);
+    const userId = await getUserIdFromToken(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -57,7 +49,7 @@ export const addProjects = async (req: Request, res: Response, next: NextFunctio
     if (!projectName || !projectDescription) {
         res.locals.response = {
             statusCode: 400,
-            message: 'Bad Request.',
+            message: 'Bad Request: Fields can`t be empty.',
             data: {},
         };
         return next();
@@ -113,7 +105,7 @@ export const listProjects = async (req: Request, res: Response, next: NextFuncti
         return next();
     }
 
-    const userId = getUserIdFromToken(token);
+    const userId = await getUserIdFromToken(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -167,7 +159,7 @@ export const deleteProject = async (req: Request, res: Response, next: NextFunct
         return next();
     }
 
-    const userId = getUserIdFromToken(token);
+    const userId = await getUserIdFromToken(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -228,7 +220,7 @@ export const getProjects = async (req: Request, res: Response, next: NextFunctio
         return next();
     }
 
-    const userId = getUserIdFromToken(token);
+    const userId = await getUserIdFromToken(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -286,7 +278,7 @@ export const updateProject = async (req: Request, res: Response, next: NextFunct
         return next();
     }
 
-    const userId = getUserIdFromToken(token);
+    const userId = await getUserIdFromToken(token);
     if (!userId) {
         res.locals.response = {
             statusCode: 401,
@@ -326,6 +318,7 @@ export const updateProject = async (req: Request, res: Response, next: NextFunct
     if (
         !projectName ||
         !projectTech ||
+        !projectDescription ||
         !projectStatus ||
         !projectLead ||
         !projectManager ||
